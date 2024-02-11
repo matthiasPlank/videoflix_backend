@@ -20,12 +20,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
 from rest_framework import routers
-
+from login import views as loginView
 from videos import views as videoView
-from rest_framework.authtoken import views
-
-
-
+from django.urls import path
 
 
 router = routers.DefaultRouter()
@@ -35,7 +32,8 @@ router.register(r'video', videoView.VideoViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('api-token-auth/', views.obtain_auth_token)
+    path('api-token-auth/', loginView.CustomAuthToken.as_view())
+
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
