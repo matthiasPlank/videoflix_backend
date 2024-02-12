@@ -32,7 +32,8 @@ router.register(r'video', videoView.VideoViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('api-token-auth/', loginView.CustomAuthToken.as_view())
+    path('api-token-auth/', loginView.CustomAuthToken.as_view()), 
+    path('register/', loginView.RegisterView.as_view(), name='auth_register'),
 
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

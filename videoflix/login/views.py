@@ -7,6 +7,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated 
+from .serializers import RegisterSerializer
+from rest_framework import generics
 
 
 # Create your views here.
@@ -33,3 +35,8 @@ class CustomAuthToken(ObtainAuthToken):
             'username': user.username
         }
         return HttpResponse(json.dumps(responseJSON), content_type='application/json')
+    
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    #permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
