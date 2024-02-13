@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env.
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -156,3 +159,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5500",
     "https://matthiasplank.pythonanywhere.com"
 ]
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.getenv('VIDEOFLIX_EMAIL')
+EMAIL_HOST_PASSWORD = os.getenv('VIDEOFLIX_EMAIL_PASSWORD')
+#EMAIL_PORT = 587
