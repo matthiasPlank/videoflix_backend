@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from django.core.mail import send_mail
+from django.conf import settings
 
 
 
@@ -38,11 +39,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         send_mail(
-            " Subject here",
-            "Here is the message.",
-            "matthias.plank@gmx.at",
-            ["matthias.plank@gmx.at"],
-            fail_silently=False,
+    		subject='Bitte bestätige deine Registierung',
+    		message='Testnachticht nach registierung eines neuen Users',
+    		from_email=settings.EMAIL_HOST_USER,
+    		recipient_list=['matthias.plank@gmx.at']
         )
 
         return user
