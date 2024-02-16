@@ -45,9 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken', 
+    'rest_framework.authtoken',
     'corsheaders',
-    'videos', 
+    'videos',
     'login',
 ]
 
@@ -62,6 +62,17 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+            },
+            "KEY_PREFIX": "videoflix"
+            }
+            }
 
 ROOT_URLCONF = 'videoflix.urls'
 
@@ -94,7 +105,7 @@ DATABASES = {
         "USER": os.getenv('POSTGRES_DB_USER'),
         "PASSWORD": os.getenv('POSTGRES_DB_PW'),
         "HOST": "localhost",
-        "PORT": "5433",
+        "PORT": "5432",
     }
 }
 
@@ -153,9 +164,9 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
-    "http://127.0.0.1:9000", 
-    "http://127.0.0.1:8000", 
-    "http://localhost:4200", 
+    "http://127.0.0.1:9000",
+    "http://127.0.0.1:8000",
+    "http://localhost:4200",
     "http://127.0.0.1:5500",
     "https://matthiasplank.pythonanywhere.com"
 ]
