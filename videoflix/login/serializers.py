@@ -13,11 +13,6 @@ from .tokens import account_activation_token
 from django.contrib.sites.shortcuts import get_current_site  
 from django.core.mail import EmailMessage  
 
-
-
-
-
-
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
             required=True,
@@ -43,15 +38,14 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             is_active = False, 
         )
-
         
         user.set_password(validated_data['password'])
         user.save()
 
         uid = urlsafe_base64_encode(force_bytes(user.pk)),  
         token = account_activation_token.make_token(user),  
-        print(uid)
-        print(token)
+        #print(uid)
+        #print(token)
 
         send_mail(
     	    subject='Bitte bestätige deine Registierung',
@@ -62,7 +56,7 @@ class RegisterSerializer(serializers.ModelSerializer):
                 'token':account_activation_token.make_token(user),  
             }),  
     		from_email=settings.EMAIL_HOST_USER,
-    		recipient_list=['matthias.plank@gmx.at']
+    		recipient_list=[user.email]
         )
 
         return user

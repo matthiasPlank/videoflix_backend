@@ -14,6 +14,8 @@ from django.utils.encoding import force_bytes , force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode  
 from .tokens import account_activation_token  
 from django.contrib.auth import get_user_model
+from django.shortcuts import redirect
+
 
 
 
@@ -62,6 +64,7 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):  
         user.is_active = True  
         user.save()  
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')  
+        return redirect('http://localhost:4200/')
+        #return HttpResponse('Thank you for your email confirmation. Now you can login your account.')  
     else:  
         return HttpResponse('Activation link is invalid!')  
