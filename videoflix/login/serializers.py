@@ -4,6 +4,17 @@ from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from django.core.mail import send_mail
+from django.conf import settings
+
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode  
+from django.template.loader import render_to_string  
+from .tokens import account_activation_token  
+from django.contrib.sites.shortcuts import get_current_site  
+from django.core.mail import EmailMessage  
+
+
+
 
 
 
@@ -37,12 +48,21 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
 
+        uid = urlsafe_base64_encode(force_bytes(user.pk)),  
+        token = account_activation_token.make_token(user),  
+        print(uid)
+        print(token)
+
         send_mail(
-            " Subject here",
-            "Here is the message.",
-            "matthias.plank@gmx.at",
-            ["matthias.plank@gmx.at"],
-            fail_silently=False,
+    	    subject='Bitte bestätige deine Registierung',
+            message=render_to_string('acc_active_email.html', {
+                'user': user,  
+                'domain': '127.0.0.1:8000',  
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),  
+                'token':account_activation_token.make_token(user),  
+            }),  
+    		from_email=settings.EMAIL_HOST_USER,
+    		recipient_list=['matthias.plank@gmx.at']
         )
 
         return user
