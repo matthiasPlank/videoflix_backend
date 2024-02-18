@@ -17,10 +17,6 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 
 
-
-
-
-
 # Create your views here.
 
 class CustomAuthToken(ObtainAuthToken):
