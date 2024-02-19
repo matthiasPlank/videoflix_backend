@@ -36,6 +36,7 @@ urlpatterns = [
     path('api-token-auth/', loginView.CustomAuthToken.as_view()), 
     path('register/', loginView.RegisterView.as_view(), name='auth_register'),
     path('activate/<str:uidb64>/<str:token>/', loginView.activate, name='activate'),
+    path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

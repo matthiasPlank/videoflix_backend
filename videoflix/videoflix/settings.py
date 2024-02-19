@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_rest_passwordreset', 
     'corsheaders',
     'videos',
     'login.apps.LoginConfig'
@@ -179,3 +180,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = os.getenv('VIDEOFLIX_EMAIL')
 EMAIL_HOST_PASSWORD = os.getenv('VIDEOFLIX_EMAIL_PASSWORD')
 #EMAIL_PORT = 587
+
+DJANGO_REST_PASSWORDRESET_TOKEN_CONFIG = {
+    "CLASS": "django_rest_passwordreset.tokens.RandomStringTokenGenerator"
+}
