@@ -16,9 +16,10 @@ from django_rest_passwordreset.signals import reset_password_token_created
 def video_post_save(sender, instance, created, **kwargs):
     print("video wurde gespeichert")
     if created:
-        print("new video created")
-        convert_480p(instance.video_file.path, instance.video_480p_file.path)
-        convert_720p(instance.video_file.path, instance.video_720p_file.path)
+        if instance.video_480p_file:
+            convert_480p.delay(instance.video_file.path, instance.video_480p_file.path)
+        if instance.video_720p_file:
+            convert_720p.delay(instance.video_file.path, instance.video_720p_file.path)
 
 
 @receiver(post_delete, sender=Video)

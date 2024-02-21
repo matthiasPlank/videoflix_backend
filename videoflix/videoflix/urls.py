@@ -17,13 +17,15 @@ Including another URLconf
 from django.urls import re_path
 from django.contrib import admin
 from django.urls import path
-from django.conf import settings 
+from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
 from rest_framework import routers
 from login import views as loginView
 from videos import views as videoView
 from django.urls import path
+from videos.views import VideoQualityAPIView
+
 
 
 router = routers.DefaultRouter()
@@ -33,10 +35,11 @@ router.register(r'video', videoView.VideoViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('api-token-auth/', loginView.CustomAuthToken.as_view()), 
+    path('api-token-auth/', loginView.CustomAuthToken.as_view()),
     path('register/', loginView.RegisterView.as_view(), name='auth_register'),
     path('activate/<str:uidb64>/<str:token>/', loginView.activate, name='activate'),
     path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    path('api/video/<int:video_id>/<str:quality>/', VideoQualityAPIView.as_view(), name='video_quality_api'),
 
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
