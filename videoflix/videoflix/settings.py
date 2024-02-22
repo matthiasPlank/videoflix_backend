@@ -46,15 +46,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'django_rest_passwordreset', 
+    'django_rest_passwordreset',
     'corsheaders',
     'videos',
-    'login.apps.LoginConfig'
+    'login.apps.LoginConfig',
+    'debug_toolbar'
 
 
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -64,6 +66,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+
+]
+
+INTERNAL_IPS = [
+    "127.0.0.1",
 ]
 
 CACHES = {
@@ -97,6 +104,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'videoflix.wsgi.application'
 
+CACHE_TTL = 60 * 15
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -108,7 +116,7 @@ DATABASES = {
         "USER": os.getenv('POSTGRES_DB_USER'),
         "PASSWORD": os.getenv('POSTGRES_DB_PW'),
         "HOST": "localhost",
-        "PORT": os.getenv('POSTGRES_DB_PORT'),   
+        "PORT": os.getenv('POSTGRES_DB_PORT'),
     }
 }
 

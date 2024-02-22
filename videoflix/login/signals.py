@@ -8,11 +8,16 @@ from django.core.mail import EmailMultiAlternatives
 from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.urls import reverse
-
+from django.conf import settings
 from django_rest_passwordreset.signals import reset_password_token_created
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.views.decorators.cache import cache_page
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 
 @receiver(post_save, sender=Video)
+@cache_page(CACHE_TTL)
 def video_post_save(sender, instance, created, **kwargs):
     print("video wurde gespeichert")
     if created:

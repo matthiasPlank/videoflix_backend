@@ -40,6 +40,7 @@ urlpatterns = [
     path('activate/<str:uidb64>/<str:token>/', loginView.activate, name='activate'),
     path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('api/video/<int:video_id>/<str:quality>/', VideoQualityAPIView.as_view(), name='video_quality_api'),
+    path("__debug__/", include("debug_toolbar.urls")),
 
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
