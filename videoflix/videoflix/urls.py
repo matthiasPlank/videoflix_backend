@@ -24,7 +24,7 @@ from rest_framework import routers
 from login import views as loginView
 from videos import views as videoView
 from django.urls import path
-from videos.views import VideoQualityAPIView
+#from videos.views import VideoQualityAPIView
 
 
 
@@ -39,7 +39,7 @@ urlpatterns = [
     path('register/', loginView.RegisterView.as_view(), name='auth_register'),
     path('activate/<str:uidb64>/<str:token>/', loginView.activate, name='activate'),
     path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
-    path('api/video/<int:video_id>/<str:quality>/', VideoQualityAPIView.as_view(), name='video_quality_api'),
+    #path('api/video/<int:video_id>/<str:quality>/', VideoQualityAPIView.as_view(), name='video_quality_api'),
     path("__debug__/", include("debug_toolbar.urls")),
 
 

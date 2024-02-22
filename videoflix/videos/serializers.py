@@ -5,7 +5,7 @@ from .models import Video
 class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
-        fields = ['id', 'title', 'description', 'genre', 'video_file', 'video_480p_file', 'video_720p_file', 'poster_file']
+        fields = ['id', 'title', 'description', 'genre', 'video_file', 'poster_file']
 
     def create(self, validated_data):
         return Video.objects.create(**validated_data)
@@ -15,8 +15,6 @@ class VideoSerializer(serializers.ModelSerializer):
         instance.description = validated_data.get('description', instance.description)
         instance.genre = validated_data.get('genre', instance.genre)
         instance.video_file = validated_data.get('video_file', instance.video_file)
-        instance.video_480p_file = validated_data.get('video_480p_file', instance.video_480p_file)
-        instance.video_720p_file = validated_data.get('video_720p_file', instance.video_720p_file)
         instance.poster_file = validated_data.get('poster_file', instance.poster_file)
         instance.save()
         return instance

@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from .serializers import VideoSerializer
 from .models import Video
 from rest_framework.views import APIView
-from login.signals import convert_480p, convert_720p
+from videos.signals import convert_480p, convert_720p
 import os
 
 # Create your views here.
@@ -42,7 +42,7 @@ class VideoViewSet(viewsets.ModelViewSet):
 
         return Response({'message': 'Video has been added and conversion started'}, status=status.HTTP_201_CREATED)
 
-
+"""
 class VideoQualityAPIView(APIView):
         def get(self, request, video_id, quality):
             try:
@@ -62,3 +62,4 @@ class VideoQualityAPIView(APIView):
 
             except Video.DoesNotExist:
                   return Response({'error': 'Video not found'}, status=404)
+"""
