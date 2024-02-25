@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import permissions, viewsets, status  
+from rest_framework import permissions, viewsets, status
 from rest_framework.response import Response
 from django.http import HttpResponse
 from django.core.exceptions import ValidationError
@@ -37,8 +37,8 @@ class VideoViewSet(viewsets.ModelViewSet):
         video_instance.save()
 
         # Perform video conversion based on the new video_instance.id
-        convert_480p.delay(video_instance.id, video_file.path)  # Assuming you are using Celery for asynchronous tasks
-        convert_720p.delay(video_instance.id, video_file.path)
+        # convert_480p(video_instance.id, video_file.path)  # Assuming you are using Celery for asynchronous tasks
+        # convert_720p(video_instance.id, video_file.path)
 
         return Response({'message': 'Video has been added and conversion started'}, status=status.HTTP_201_CREATED)
 

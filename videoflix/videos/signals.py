@@ -21,10 +21,9 @@ CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 def video_post_save(sender, instance, created, **kwargs):
     print("video wurde gespeichert")
     if created:
-        if instance.video_480p_file:
-            convert_480p.delay(instance.video_file.path, instance.video_480p_file.path)
-        if instance.video_720p_file:
-            convert_720p.delay(instance.video_file.path, instance.video_720p_file.path)
+        if instance.video_file:
+            convert_480p(instance.video_file.path)
+            convert_720p(instance.video_file.path)
 
 
 @receiver(post_delete, sender=Video)
@@ -36,7 +35,4 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
     if instance.video_file:
         if os.path.isfile(instance.video_file.path):
             os.remove(instance.video_file.path)
-        if instance.video_480p_file and os.path.isfile(instance.video_480p_file.path):
-            os.remove(instance.video_480p_file.path)
-        if instance.video_720p_file and os.path.isfile(instance.video_720p_file.path):
-            os.remove(instance.video_720p_file.path)
+      
