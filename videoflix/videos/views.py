@@ -16,7 +16,7 @@ class VideoViewSet(viewsets.ModelViewSet):
     """
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def postVideo(self, request, *args, **kwargs):
         title = request.data['title']
