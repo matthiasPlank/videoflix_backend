@@ -1,15 +1,27 @@
+from django.conf import settings
 from django.shortcuts import render
 from rest_framework import permissions, viewsets, status
 from rest_framework.response import Response
 from django.http import HttpResponse
 from django.core.exceptions import ValidationError
+
+
+
 from .serializers import VideoSerializer
 from .models import Video
 from rest_framework.views import APIView
 from videos.signals import convert_480p, convert_720p
 import os
 
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+
+
 # Create your views here.
+
 class VideoViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows videos to be viewed or edited.
@@ -18,7 +30,16 @@ class VideoViewSet(viewsets.ModelViewSet):
     serializer_class = VideoSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+    @method_decorator(cache_page(CACHE_TTL))  # CACHETTL should be defined
+    def list(self, request, *args, **kwargs):
+      return super().list(request, *args, **kwargs)
+      
+
+    """
     def postVideo(self, request, *args, **kwargs):
+        
+        print("POST VIDEO FUNCTION")
+
         title = request.data['title']
         description = request.data['description']
         video_file = request.data['video_file']
@@ -41,6 +62,9 @@ class VideoViewSet(viewsets.ModelViewSet):
         # convert_720p(video_instance.id, video_file.path)
 
         return Response({'message': 'Video has been added and conversion started'}, status=status.HTTP_201_CREATED)
+    
+        """
+
 
 """
 class VideoQualityAPIView(APIView):

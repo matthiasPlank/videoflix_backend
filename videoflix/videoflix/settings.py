@@ -60,14 +60,14 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-
 ]
 
 INTERNAL_IPS = [
@@ -114,17 +114,19 @@ RQ_QUEUES = {
     }
 }
 
+CACHE_TTL = 60 * 15
 
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient"
-            },
-            "KEY_PREFIX": "videoflix"
-            }
-            }
+            "CLIENT_CLASS": "django_redis.client.DefaultClient", 
+            'PASSWORD': os.getenv('REDIS_DB_PW')
+        },
+        "KEY_PREFIX": "videoflix"
+        }
+}
 
 ROOT_URLCONF = 'videoflix.urls'
 
@@ -146,7 +148,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'videoflix.wsgi.application'
 
-CACHE_TTL = 60 * 15
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
