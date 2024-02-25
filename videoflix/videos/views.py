@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 
 
 
+
 from .serializers import VideoSerializer
 from .models import Video
 from rest_framework.views import APIView
@@ -29,6 +30,8 @@ class VideoViewSet(viewsets.ModelViewSet):
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filterset_fields = ['genre']  # Exmaple http://127.0.0.1:8000/video?genre=Horror
+
 
     @method_decorator(cache_page(CACHE_TTL))  # CACHETTL should be defined
     def list(self, request, *args, **kwargs):

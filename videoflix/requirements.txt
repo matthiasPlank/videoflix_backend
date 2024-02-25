@@ -1,9 +1,12 @@
 asgiref==3.7.2
+click==8.1.7
 Django==5.0.1
 django-cors-headers==4.3.1
 django-debug-toolbar==4.3.0
+django-filter==23.5
 django-redis==5.4.0
 django-rest-passwordreset==1.4.0
+django-rq==0.2.1
 djangorestframework==3.14.0
 psycopg==3.1.18
 psycopg-binary==3.1.18
@@ -11,6 +14,7 @@ psycopg-pool==3.2.1
 python-dotenv==1.0.1
 pytz==2024.1
 redis==5.0.1
+rq==1.16.0
 six==1.16.0
 sqlparse==0.4.4
 typing_extensions==4.9.0
