@@ -6,8 +6,6 @@ from django.http import HttpResponse
 from django.core.exceptions import ValidationError
 
 
-
-
 from .serializers import VideoSerializer
 from .models import Video
 from rest_framework.views import APIView
@@ -36,11 +34,11 @@ class VideoViewSet(viewsets.ModelViewSet):
     @method_decorator(cache_page(CACHE_TTL))  # CACHETTL should be defined
     def list(self, request, *args, **kwargs):
       return super().list(request, *args, **kwargs)
-      
+
 
     """
     def postVideo(self, request, *args, **kwargs):
-        
+
         print("POST VIDEO FUNCTION")
 
         title = request.data['title']
@@ -65,7 +63,7 @@ class VideoViewSet(viewsets.ModelViewSet):
         # convert_720p(video_instance.id, video_file.path)
 
         return Response({'message': 'Video has been added and conversion started'}, status=status.HTTP_201_CREATED)
-    
+
         """
 
 
