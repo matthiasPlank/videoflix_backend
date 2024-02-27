@@ -23,7 +23,7 @@ def video_post_save(sender, instance, created, **kwargs):
     print("video wurde gespeichert")
     if created:
         if instance.video_file:
-            queue = django_rq.get_queue('default', autocommit=True)
+            queue=django_rq.get_queue('default', autocommit=True)
             queue.enqueue(convert_480p, instance.video_file.path)
             # convert_480p(instance.video_file.path)
             # convert_720p(instance.video_file.path)
@@ -38,4 +38,5 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
     if instance.video_file:
         if os.path.isfile(instance.video_file.path):
             os.remove(instance.video_file.path)
+
 
