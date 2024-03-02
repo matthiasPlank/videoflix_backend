@@ -13,6 +13,7 @@ from django.conf import settings
 from django_rest_passwordreset.signals import reset_password_token_created
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 import django_rq
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
@@ -22,6 +23,7 @@ CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 def video_post_save(sender, instance, created, **kwargs):
     print("video wurde gespeichert")
     if created:
+        cache.clear(); 
         if instance.video_file:
             # queue=django_rq.get_queue('default', autocommit=True)
             # queue.enqueue(convert_480p, instance.video_file.path)
@@ -39,5 +41,6 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
     if instance.video_file:
         if os.path.isfile(instance.video_file.path):
             os.remove(instance.video_file.path)
+            cache.clear(); 
 
 
