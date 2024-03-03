@@ -20,7 +20,7 @@ GENRE_CHOICES = {
 }
 class Video(models.Model):
 
-    title = models.CharField(max_length=64)
+    title = models.CharField(max_length=64, blank=False)
     description = models.CharField(max_length=1024)
     video_file = models.FileField(upload_to='videos' , blank=True , null=True)
     poster_file = models.FileField(upload_to='poster' , blank=True , null=True)
