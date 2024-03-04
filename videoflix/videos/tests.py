@@ -80,3 +80,25 @@ class VideoModelTest(TestCase):
          # If 'title' is not in error_dict, explicitly fail the test
             self.fail("ValidationError for 'title' not found")
 
+
+    def test_video_creation_missing_video_file(self):
+    # Creating a video with a missing video_file
+        video = Video(
+        title='Test Video',
+        description='Test description',
+        video_file=None,
+        created_at=date.today(),
+        genre='Drama'
+    )
+
+        with self.assertRaises(ValidationError) as context:
+            video.full_clean()
+
+        error_dict = context.exception.error_dict
+        error_messages = error_dict.get('video_file', [])
+        if error_messages:
+        # Check if the expected error message is in the list of error messages
+            self.assertIn("This field cannot be blank.", str(error_messages))
+        else:
+        # If 'video_file' is not in error_dict, explicitly fail the test
+            self.fail("ValidationError for 'video_file' not found")
