@@ -8,10 +8,14 @@ from django.conf import settings
 
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode  
-from django.template.loader import render_to_string  
+from django.template.loader import render_to_string
+
+from login.functions import send_register_mail  
 from .tokens import account_activation_token  
 from django.contrib.sites.shortcuts import get_current_site  
 from django.core.mail import EmailMessage  
+
+import django_rq
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -44,19 +48,12 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         uid = urlsafe_base64_encode(force_bytes(user.pk)),  
         token = account_activation_token.make_token(user),  
-        #print(uid)
-        #print(token)
 
-        send_mail(
-    	    subject='Bitte bestätige deine Registierung',
-            message=render_to_string('acc_active_email.html', {
-                'user': user,  
-                'domain': '127.0.0.1:8000',  
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),  
-                'token':account_activation_token.make_token(user),  
-            }),  
-    		from_email=settings.EMAIL_HOST_USER,
-    		recipient_list=[user.email]
-        )
-
+        # SEND EMAIL FOR REGISTRATION WITH RQ WORKER 
+        queue=django_rq.get_queue('default', autocommit=True)
+        queue.enqueue(send_register_mail, user)
+        
+        # SEND EMAIL FOR REGISTRATION WITHOUT RQ WORKER --> Enable comment in the  next line
+        #send_register_mail(user)
+        
         return user
