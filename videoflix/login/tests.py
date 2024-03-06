@@ -1,7 +1,9 @@
-from django.test import TestCase
+from django.test import TestCase, SimpleTestCase
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 import json  # Import json module
+from django.urls import reverse, resolve
+from .views import RegisterView, activate
 
 class CustomAuthTokenTests(APITestCase):
     def setUp(self):
@@ -20,4 +22,20 @@ class CustomAuthTokenTests(APITestCase):
         self.assertIn('user_id', response_data)
         self.assertIn('email', response_data)
         self.assertIn('username', response_data)
+
+class TestUrls(SimpleTestCase):
+
+    def test_authRegister_url_is_resolved(self):
+        url = reverse('auth_register')
+        print(resolve(url))
+        self.assertEqual(resolve(url).func.view_class, RegisterView)
+
+    def test_loginActivate_url_is_resolved(self):
+        uidb64 = 'sample_uidb64'
+        token = 'sample_token'
+
+        url = reverse('activate', args=[uidb64, token])
+        self.assertEqual(resolve(url).func, activate)
+
+
 
