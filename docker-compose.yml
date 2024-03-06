@@ -1,17 +1,6 @@
-version: '3'
-
-
+version: '3.9'
 
 services:
-  db:
-    image: postgres:latest
-    restart: always
-    environment:
-      POSTGRES_DB: videoflix
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
-    
-
   web:
     build: .
     command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
@@ -21,5 +10,28 @@ services:
       - "8000:8000"
     depends_on: 
       - db
+
+  db:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_PASSWORD: example
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+  
+    
+    
 
 

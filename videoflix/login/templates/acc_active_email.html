@@ -1,5 +1,31 @@
-{% autoescape off %}  
-Hi {{ user.username }},  
-Please click on the link to confirm your registration,  
-http://{{ domain }}{% url 'activate' uidb64=uid token=token %}  
-{% endautoescape %}  
+<html>
+<style>
+    h1 {
+        color: red;
+    }
+
+    h2 {
+        font-size: 14px;
+    }
+
+    p {
+        color: blue;
+    }
+</style>
+
+
+<body>
+    <div class="">
+        <h1>VIDEOFLIX</h1>
+        
+        {% autoescape off %}
+
+        <h2>Hi {{ user.username }},</h2>
+        <p>
+            Please click on the link to confirm your registration,
+            http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+            {% endautoescape %} </p>
+        </div>
+</body>
+
+</html>
