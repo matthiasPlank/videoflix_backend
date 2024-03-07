@@ -48,7 +48,10 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
 
-#Activate User via Email Link
+
+"""
+Activate User via Email Link
+"""
 def activate(request, uidb64, token):
     print("ACTIVATE FUNCTION")
     User = get_user_model()
@@ -64,6 +67,19 @@ def activate(request, uidb64, token):
         #return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
+
+"""
+Check if user Token is valid
+"""
+def check_token_view(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        user = User.objects.get(email=data['email'])
+        userToken = Token.objects.get(user=user)
+        if data['token'] == userToken.key: 
+             return HttpResponse(True)
+    return HttpResponse(False)
+
 
 
 
