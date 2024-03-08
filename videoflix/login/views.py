@@ -72,6 +72,9 @@ def activate(request, uidb64, token):
 Check if user Token is valid
 """
 def check_token_view(request):
+
+    print(" ############### CHECk TOKEN ############### ")
+
     if request.method == 'POST':
         data = json.loads(request.body)
         user = User.objects.get(email=data['email'])
@@ -79,6 +82,9 @@ def check_token_view(request):
         if data['token'] == userToken.key: 
              return HttpResponse(True)
     return HttpResponse(False)
+
+
+
 
 
 

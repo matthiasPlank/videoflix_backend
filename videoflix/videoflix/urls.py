@@ -23,6 +23,7 @@ from django.urls import include, path
 from rest_framework import routers
 from login import views as loginView
 from videos import views as videoView
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 #from videos.views import VideoQualityAPIView
 
 
@@ -36,6 +37,7 @@ urlpatterns = [
     path('api-token-auth/', loginView.CustomAuthToken.as_view()),
     path('register/', loginView.RegisterView.as_view(), name='auth_register'),
     path('activate/<str:uidb64>/<str:token>/', loginView.activate, name='activate'),
+    path('checkToken/', csrf_exempt(loginView.check_token_view), name='check_token'),
     path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 
     path("__debug__/", include("debug_toolbar.urls")),
