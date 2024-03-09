@@ -29,7 +29,12 @@ SECRET_KEY = "django-insecure-37u#bchc&qn85ft8g^led1v(%i6%__lt7wh@4@l0i-ai&g3s0l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "matthiasplank.pythonanywhere.com"]
+ALLOWED_HOSTS = [
+    "127.0.0.1", 
+    "localhost", 
+    "matthiasplank.pythonanywhere.com" , 
+    "videoflix_backend.matthias-plank.at", 
+]
 
 # Application definition
 
