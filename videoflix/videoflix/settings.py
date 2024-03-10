@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [
     "localhost", 
     "matthiasplank.pythonanywhere.com" , 
     "videoflix_backend.matthias-plank.at", 
+    "85.215.130.144", 
 ]
 
 # Application definition
