@@ -197,6 +197,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:9000",
     "http://127.0.0.1:8000",
     "http://localhost:4200",
+    "https://localhost:4200", 
     "http://127.0.0.1:5500",
     "https://matthiasplank.pythonanywhere.com",
 ]
