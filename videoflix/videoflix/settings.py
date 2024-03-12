@@ -33,7 +33,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1", 
     "localhost", 
     "matthiasplank.pythonanywhere.com" , 
-    "videoflix_backend.matthias-plank.at", 
+    "videoflixbackend.matthias-plank.at", 
     "85.215.130.144", 
 ]
 
