@@ -30,11 +30,12 @@ SECRET_KEY = "django-insecure-37u#bchc&qn85ft8g^led1v(%i6%__lt7wh@4@l0i-ai&g3s0l
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "127.0.0.1", 
-    "localhost", 
-    "matthiasplank.pythonanywhere.com" , 
-    "videoflixbackend.matthias-plank.at", 
-    "85.215.130.144", 
+    "127.0.0.1",
+    "localhost",
+    "matthiasplank.pythonanywhere.com" ,
+    "videoflixbackend.matthias-plank.at",
+    "85.215.130.144",
+    "34.159.53.142"
 ]
 
 # Application definition
@@ -197,7 +198,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:9000",
     "http://127.0.0.1:8000",
     "http://localhost:4200",
-    "https://localhost:4200", 
+    "https://localhost:4200",
     "http://127.0.0.1:5500",
     "https://matthiasplank.pythonanywhere.com", 
     "https://matthias-plank.developerakademie.net"
