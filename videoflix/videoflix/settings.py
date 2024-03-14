@@ -36,7 +36,7 @@ ALLOWED_HOSTS = [
     "videoflixbackend.matthias-plank.at",
     "85.215.130.144",
     "34.159.53.142",
-    "videoflix.sebseitz.com/"
+    "videoflix.sebseitz.com"
 ]
 
 # Application definition
