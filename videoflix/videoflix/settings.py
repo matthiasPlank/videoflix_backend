@@ -209,7 +209,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = os.getenv("VIDEOFLIX_EMAIL")
 EMAIL_HOST_PASSWORD = os.getenv("VIDEOFLIX_EMAIL_PASSWORD")
-# EMAIL_PORT = 587
+EMAIL_PORT = 587
 
 DJANGO_REST_PASSWORDRESET_TOKEN_CONFIG = {
     "CLASS": "django_rest_passwordreset.tokens.RandomStringTokenGenerator"
