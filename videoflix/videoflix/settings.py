@@ -35,7 +35,8 @@ ALLOWED_HOSTS = [
     "matthiasplank.pythonanywhere.com" ,
     "videoflixbackend.matthias-plank.at",
     "85.215.130.144",
-    "34.159.53.142"
+    "34.159.53.142",
+    "videoflix.sebseitz.com/"
 ]
 
 # Application definition
@@ -200,8 +201,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
     "https://localhost:4200",
     "http://127.0.0.1:5500",
-    "https://matthiasplank.pythonanywhere.com", 
-    "https://matthias-plank.developerakademie.net"
+    "https://matthiasplank.pythonanywhere.com",
+    "https://matthias-plank.developerakademie.net",
+    "http://videoflix.sebseitz.com/"
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
