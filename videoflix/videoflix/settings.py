@@ -203,7 +203,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5500",
     "https://matthiasplank.pythonanywhere.com",
     "https://matthias-plank.developerakademie.net",
-    "http://videoflix.sebseitz.com/"
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
