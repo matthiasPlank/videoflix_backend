@@ -18,17 +18,21 @@ import django_rq
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
-@receiver(post_save, sender=Video)
+"""
+Start video conversiona after new video is created in database
+"""
 #@cache_page(CACHE_TTL)
+@receiver(post_save, sender=Video)
 def video_post_save(sender, instance, created, **kwargs):
     print("video wurde gespeichert")
     if created:
         cache.clear(); 
         if instance.video_file:
-            # queue=django_rq.get_queue('default', autocommit=True)
-            # queue.enqueue(convert_480p, instance.video_file.path)
-            convert_480p(instance.video_file.path)
-            convert_720p(instance.video_file.path)
+            queue=django_rq.get_queue('default', autocommit=True)
+            queue.enqueue(convert_480p, instance.video_file.path)
+            queue.enqueue(convert_720p, instance.video_file.path)
+            #convert_480p(instance.video_file.path)
+            #convert_720p(instance.video_file.path)
 
 
 """

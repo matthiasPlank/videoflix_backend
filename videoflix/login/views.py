@@ -80,8 +80,8 @@ def check_token_view(request):
         user = User.objects.get(email=data['email'])
         userToken = Token.objects.get(user=user)
         if data['token'] == userToken.key: 
-             return HttpResponse(True)
-    return HttpResponse(False)
+             return JsonResponse({'valid': True})
+    return JsonResponse({'valid': False})
 
 
 
