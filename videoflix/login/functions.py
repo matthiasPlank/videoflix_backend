@@ -1,4 +1,5 @@
 
+import os
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.encoding import force_bytes
@@ -11,10 +12,9 @@ from django.core.mail import EmailMultiAlternatives
 
 def send_register_mail(user):
     subject = 'Bitte bestätige deine Registierung'
-
     context = {
         'user': user,
-        'domain': '127.0.0.1:8000',
+        'domain': os.getenv("BACKEND_HOST"),
         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
         'token': account_activation_token.make_token(user),
     }
@@ -28,12 +28,24 @@ def send_register_mail(user):
     msg.attach_alternative(html_message, "text/html")
     msg.send()
 
-    """
-    send_mail(
-        subject=subject,
-        message=strip_tags(message),  # Set message as empty string since you're sending HTML content
-        html_message=message,  # Pass HTML content to html_message parameter
-        from_email=from_email,
-        recipient_list=recipient_list,
-    )
-    """
+
+
+def send_RestPassword_mail(reset_password_token): 
+    print("INSIDE OF send_RestPassword_mail")
+    subject = "Password Reset"
+    context = {
+        'current_user': reset_password_token.user,
+        'username': reset_password_token.user.username,
+        'email': reset_password_token.user.email,
+        'reset_password_url': "{}{}".format(
+            os.getenv("FRONTEND_HOST") + '/password_reset/',
+            reset_password_token.key)     
+    }
+
+    email_html_message = render_to_string('user_reset_password.html', context)
+    email_plaintext_message = render_to_string('user_reset_password.txt', context)
+    from_email = settings.EMAIL_HOST_USER
+
+    msg = EmailMultiAlternatives( subject , email_plaintext_message, from_email, [reset_password_token.user.email])
+    msg.attach_alternative(email_html_message, "text/html")
+    msg.send()   

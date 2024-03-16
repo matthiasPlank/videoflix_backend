@@ -1,14 +1,50 @@
 <html>
+<head>
+    <style>
+        body{
+            background-color: black;
+            color: white;
+        }
+        h1 {
+            color: red;
+        }
+        h2 {
+            color: white;
+        }
+        p {
+            color: blue;
+        }
+        #mail{
+            display: flex;
+            flex-direction: column;
+        }
+        #mail-header{
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+        }
+        #mail-content{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
 
 <body>
-    <div>
-        <h1>VIDEOFLIX</h1>
-        <h2>Hi plank.matthias@icloud.com,</h2>
-        <p>
-            Please click on the link to confirm your registration,
-            <a href="http://127.0.0.1:8000/activate/Ng/c3zc63-dc20eed1570d241717ea0c52152beb39/">Activation Link</a>
-        </p>
+    <div id="mail">
+        <div id="mail-header">
+            <h1>VIDEOFLIX</h1>
+        </div>
+        <div id="mail-content">
+            <h2>Hi {{ user }},</h2> 
+            Please click on the following link to reset your password!
+            <a href="{{ domain }}{% url 'activate' uidb64=uid token=token %}  ">ACTIVATION LINK</a>
+        </div>
+        <div id="mail-footer">
+            
+        </div>
     </div>
 </body>
-
 </html>
