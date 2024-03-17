@@ -9,7 +9,9 @@ from django.utils.html import strip_tags
 from .tokens import account_activation_token  
 from django.core.mail import EmailMultiAlternatives
 
-
+"""
+Sends a email for registration to user
+"""
 def send_register_mail(user):
     subject = 'Bitte bestätige deine Registierung'
     context = {
@@ -29,7 +31,9 @@ def send_register_mail(user):
     msg.send()
 
 
-
+"""
+Sends a email for password reset to user
+"""
 def send_RestPassword_mail(reset_password_token): 
     print("INSIDE OF send_RestPassword_mail")
     subject = "Password Reset"

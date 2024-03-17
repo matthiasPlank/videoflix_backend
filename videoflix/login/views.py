@@ -17,8 +17,6 @@ from .tokens import account_activation_token
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 
-# Create your views here.
-
 class CustomAuthToken(ObtainAuthToken):
 
     """
@@ -44,16 +42,12 @@ class CustomAuthToken(ObtainAuthToken):
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
-    #permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
-
-
 
 """
 Activate User via Email Link
 """
 def activate(request, uidb64, token):
-    print("ACTIVATE FUNCTION")
     User = get_user_model()
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -64,7 +58,6 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         return redirect('http://localhost:4200/')
-        #return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
 
@@ -72,8 +65,6 @@ def activate(request, uidb64, token):
 Check if user Token is valid
 """
 def check_token_view(request):
-
-    print(" ############### CHECk TOKEN ############### ")
 
     if request.method == 'POST':
         data = json.loads(request.body)

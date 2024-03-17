@@ -93,7 +93,7 @@ class PasswordTests(APITestCase):
         self.assertEqual(response.status_code, 400)       
 
     """
-    Sends a passwordreste request to create reset token. Gets token from db and checks if confirm api works
+    Sends a passwordreset request to create reset token. Gets token from db and checks if confirm api works
     """
     def test_changePassword(self):
         dataReset = {
@@ -116,11 +116,17 @@ class PasswordTests(APITestCase):
         
 class TestUrls(SimpleTestCase):
 
+    """
+    Checks URL configuration and view mapping are set up correctly for user registration
+    """
     def test_authRegister_url_is_resolved(self):
         url = reverse('auth_register')
         print(resolve(url))
         self.assertEqual(resolve(url).func.view_class, RegisterView)
 
+    """
+    Checks URL configuration and view mapping are set up correctly for user activation
+    """
     def test_loginActivate_url_is_resolved(self):
         uidb64 = 'sample_uidb64'
         token = 'sample_token'

@@ -22,7 +22,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             required=True,
             validators=[UniqueValidator(queryset=User.objects.all())]
             )
-
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
 
@@ -30,24 +29,25 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ('username', 'password', 'password2', 'email')
 
+    """
+    Validates if passwords are the same (in addition to frontend)
+    """
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields didn't match."})
-
         return attrs
 
+    """
+    Creates new user and send email for activation
+    """
     def create(self, validated_data):
         user = User.objects.create(
             username=validated_data['username'],
             email=validated_data['email'],
             is_active = False, 
         )
-        
         user.set_password(validated_data['password'])
         user.save()
-
-        uid = urlsafe_base64_encode(force_bytes(user.pk)),  
-        token = account_activation_token.make_token(user),  
 
         # SEND EMAIL FOR REGISTRATION WITH RQ WORKER 
         queue=django_rq.get_queue('default', autocommit=True)

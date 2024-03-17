@@ -30,7 +30,6 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 router = routers.DefaultRouter()
 router.register(r'video', videoView.VideoViewSet)
 
-
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
