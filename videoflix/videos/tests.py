@@ -26,8 +26,16 @@ from django.test import TestCase
 from django_rq import get_queue
 from unittest.mock import patch
 
+from django.test import TestCase
+from django.core.cache import cache
+from django_rq import get_queue
+from unittest.mock import patch, Mock
+
 class VideoSignalTests(TestCase):
 
+    """
+    Creates video object for test 
+    """
     def setUp(self):
         # Provide the content of a real video file
         with open('media/videos/testvideos/ants.mp4', 'rb') as file:
@@ -37,59 +45,25 @@ class VideoSignalTests(TestCase):
         video_file = SimpleUploadedFile("video.mp4", video_content, content_type="video/mp4")
         self.video = Video.objects.create(video_file=video_file)
 
-
+    """
+    Tests the video conversion rq function call after creating new video
+    """
     @patch('videos.signals.convert_480p')
     @patch('videos.signals.convert_720p')
     @patch('django_rq.get_queue')
-    def test_video_post_save(self, mock_get_queue, mock_convert_720p, mock_convert_480p):
-        pass
+    @patch('videos.signals.cache.clear')
+    def test_video_post_save(self, mock_cache_clear,  mock_get_queue, mock_convert_720p, mock_convert_480p):
+        
+        instance = Mock(video_file=Mock(path=self.video.video_file))
 
-        """
-        # Mock the queue and its enqueue method
-        mock_queue = MagicMock()
+        mock_queue = Mock()
         mock_get_queue.return_value = mock_queue
 
+        video_post_save(None, instance, created=True)
 
-        # Call the post_save signal manually with the Video instance
-        post_save.send(sender=Video, instance=self.video, created=True)
-
-
-        # Assert that convert_480p and convert_720p were enqueued with the correct arguments
-        mock_queue.assert_any_call(convert_480p, self.video.video_file.path)
-        #mock_queue.assert_any_call(convert_720p, self.video.video_file.path)
-
-        # Assert that convert_480p and convert_720p were called
-        #mock_convert_480p.assert_called_once_with(self.video.video_file.path)
-        #mock_convert_720p.assert_called_once_with(self.video.video_file.path)
-        """
-
-    
-        """
-        post_save.send(sender=Video, instance=self.video, created=True)
-        get_worker().work(burst=True)
-        self.video.refresh_from_db()
-        self.assertTrue(self.video.video_file.path)
-        """
-
-        
-
-        """
-        @patch('videos.signals.convert_480p')
-        @patch('videos.signals.convert_720p')
-        def test_video_post_save_method(self, mock_convert_720p, mock_convert_480p):
-        # Call the post_save signal manually
-        post_save.send(sender=Video, instance=self.video, created=True)
-
-        # Assert that the convert_480p and convert_720p functions were called with the correct arguments
-        mock_convert_480p.assert_called_once_with(self.video.video_file.path)
-        mock_convert_720p.assert_called_once_with(self.video.video_file.path)
-
-        # Refresh the instance from the database to get the latest changes
-        self.video.refresh_from_db()
-        self.assertTrue(self.video.video_file.path)
-        """
-        
-
+        mock_cache_clear.assert_called_once()
+        mock_queue.enqueue.assert_any_call(mock_convert_480p, self.video.video_file)
+        mock_queue.enqueue.assert_any_call(mock_convert_720p, self.video.video_file)
 
 class VideoModelTest(TestCase):
     def setUp(self):
