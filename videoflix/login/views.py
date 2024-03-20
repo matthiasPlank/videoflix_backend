@@ -1,4 +1,5 @@
 import json
+import os
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
@@ -57,7 +58,7 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        return redirect('http://localhost:4200/')
+        return redirect(os.getenv("FRONTEND_HOST"))
     else:
         return HttpResponse('Activation link is invalid!')
 
