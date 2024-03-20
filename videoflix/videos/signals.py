@@ -9,14 +9,14 @@ from django.core.cache import cache
 import django_rq
 import os
 
-CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+#CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 """
 Start video conversiona after new video is created in database
 """
 @receiver(post_save, sender=Video)
 def video_post_save(sender, instance, created, **kwargs):
-    print("video wurde gespeichert")
+    print("VIDEO CREATED")
     if created:
         cache.clear(); 
         if instance.video_file:
@@ -34,7 +34,8 @@ Deletes file from filesystem when corresponding `MediaFile` object is deleted.
 """
 @receiver(post_delete, sender=Video)
 def auto_delete_file_on_delete(sender, instance, **kwargs):
-
+    print("DELETE FILE")
+    
     if instance.video_file:
         if os.path.isfile(instance.video_file.path):
             os.remove(instance.video_file.path)
