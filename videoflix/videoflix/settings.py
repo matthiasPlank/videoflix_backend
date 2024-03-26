@@ -205,8 +205,9 @@ CORS_ALLOWED_ORIGINS = [
     "https://matthiasplank.pythonanywhere.com",
     "https://matthias-plank.developerakademie.net",
     "https://videoflix.matthias-plank.at",
-    "https://videoflix.sebseitz.com"
-    
+    "https://videoflix-private.sebseitz.com",
+
+
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
